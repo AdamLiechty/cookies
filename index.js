@@ -12,8 +12,9 @@ app.get('/', (req, res) => {
         <div>Cookies:</div>
         ${Object.keys(req.cookies).length ? '' : '[none set]'}
         <ul>
-        ${Object.entries(req.cookies).map(([name, val]) => `<li>${name}: ${val}</li>`)}
+        ${Object.entries(req.cookies).map(([name, val]) => `<li>${name}: ${val}</li>`).join('')}
         </ul>
+        <a href="/cookie?name=rand&value=${Math.floor(Math.random()*1000)}">🍪</a>
     </body>
 </html>
 `)
@@ -29,6 +30,7 @@ app.get('/cookie', (req, res) => {
     <head><title>🍪</title></head>
     <body>
         <div>Sent HttpOnly cookie ${name}: ${value}</div>
+        <a href="/">&lt;-- 🍪</a>
     </body>
 </html>
 `)
