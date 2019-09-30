@@ -13,6 +13,11 @@ app.get('/', (req, res) => {
         document.querySelector("#fetch").onclick = () => {
             fetch("/cookie?name=fetched&value=${Math.floor(Math.random()*1000)}")
         }
+        document.querySelector("#xhr").onclick = () => {
+            const xhr = new XMLHttpRequest()
+            xhr.open('GET', "/cookie?name=xhr-ed&value=${Math.floor(Math.random()*1000)}")
+            xhr.send();
+        }
     }
     </script>
     <body>
@@ -23,6 +28,7 @@ app.get('/', (req, res) => {
         </ul>
         <a href="/cookie?name=rand&value=${Math.floor(Math.random()*1000)}">🍪</a>
         <div><button id="fetch">Make fetch call to get cookie</button></div>
+        <div><button id="xhr">Make XHR call to get cookie</button></div>
     </body>
 </html>
 `)
