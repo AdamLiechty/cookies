@@ -8,6 +8,13 @@ app.get('/', (req, res) => {
     res.send(`
 <html>
     <head><title>🍪👾</title></head>
+    <script>
+    window.onload = () => {
+        document.querySelector("#fetch").onclick = () => {
+            fetch("/cookie?name=fetched&value=${Math.floor(Math.random()*1000)}")
+        }
+    }
+    </script>
     <body>
         <div>Cookies:</div>
         ${Object.keys(req.cookies).length ? '' : '[none set]'}
@@ -15,6 +22,7 @@ app.get('/', (req, res) => {
         ${Object.entries(req.cookies).map(([name, val]) => `<li>${name}: ${val}</li>`).join('')}
         </ul>
         <a href="/cookie?name=rand&value=${Math.floor(Math.random()*1000)}">🍪</a>
+        <div><button id="fetch">Make fetch call to get cookie</button></div>
     </body>
 </html>
 `)
