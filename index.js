@@ -36,4 +36,9 @@ app.get('/cookie', (req, res) => {
 `)
 })
 
+app.get('/bounce', (req, res) => {
+    res.cookie('bounce_cookie', '1')
+    res.redirect('/')
+})
+
 app.listen(port, () => console.log(`Listening on port ${port}`))
