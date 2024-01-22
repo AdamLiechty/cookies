@@ -2,7 +2,10 @@ const express = require('express')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const app = express()
-app.use(cors({credentials: true}))
+app.use(cors({
+    credentials: true,
+    origin: (origin, cb) => cb(null, origin) // Bad security in real server
+}))
 app.use(cookieParser())
 const port = process.env.PORT || 3000
 
@@ -23,7 +26,8 @@ app.get('/', (req, res) => {
     <script>
     window.onload = () => {
         document.querySelector("#fetch").onclick = () => {
-            fetch("/cookie?name=fetched&value=" + Math.floor(Math.random()*1000))
+            const options = {credentials: "include"}
+            fetch("/cookie?name=fetched&value=" + Math.floor(Math.random()*1000), options)
         }
         document.querySelector("#xhr").onclick = () => {
             const xhr = new XMLHttpRequest()
@@ -42,7 +46,8 @@ app.get('/', (req, res) => {
             return iframeURL
         }
         document.querySelector("#fetch-d").onclick = () => {
-            fetch(getIframeURL() + "cookie?name=fetched&value=" + Math.floor(Math.random()*1000))
+            const options = {credentials: "include"}
+            fetch(getIframeURL() + "cookie?name=fetched&value=" + Math.floor(Math.random()*1000), options)
         }
         document.querySelector("#xhr-d").onclick = () => {
             const xhr = new XMLHttpRequest()
