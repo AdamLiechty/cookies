@@ -10,8 +10,8 @@ app.use(cookieParser())
 const port = process.env.PORT || 3000
 
 const cookieSettings = (req) => ({
-    domain: '.' + req.get('host'),
-    // httpOnly: true,
+    domain: req.get('host'),
+    httpOnly: true,
     sameSite: 'none',
     // partitioned: true,
     secure: true
@@ -19,10 +19,12 @@ const cookieSettings = (req) => ({
 
 app.get('/', (req, res) => {
     const iframeURL = req.query.iframe
-    res.cookie('nav', 'nav-cookie')
+    res.cookie('nav', 'nav-cookie', cookieSettings(req))
     res.send(`<!DOCTYPE html>
 <html>
-    <head><title>🍪👾</title></head>
+    <head><title>🍪👾</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    </head>
     <script>
     window.onload = () => {
         document.querySelector("#fetch").onclick = () => {
@@ -80,7 +82,7 @@ app.get('/', (req, res) => {
         </div>
         <div><button id="fetch-d">Make fetch call to other domain to get cookie</button></div>
         <div><button id="xhr-d">Make XHR call to other domain to get cookie</button></div>
-        ${(iframeURL || '') && `<iframe src=${iframeURL} width="500" height="500" />`}
+        ${(iframeURL || '') && `<iframe src=${iframeURL} width="100%" height="500" />`}
     </body>
 </html>
 `)
